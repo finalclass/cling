@@ -1,0 +1,22 @@
+{
+  "name": "cling",
+  "version": "0.0.0",
+  "description": "Angularjs client",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node spec/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:finalclass/cling.git"
+  },
+  "keywords": [
+    "angularjs",
+    "client"
+  ],
+  "author": "Szymon Wygnański <s@finalclass.net>",
+  "license": "MIT",
+  "dependencies": {
+    "optimist": "~0.5.0"
+  }
+}
