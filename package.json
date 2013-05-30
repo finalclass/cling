@@ -1,6 +1,6 @@
 {
   "name": "cling",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Angularjs client",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,5 @@
   ],
   "author": "Szymon Wygnański <s@finalclass.net>",
   "license": "MIT",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
