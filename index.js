@@ -39,8 +39,8 @@ function dashToCamelCase(text) {
 }
 
 function component (argv) {
-    var stylFileTemplate = '@import "nib";\n\n.{{dash-module}}-{{dash-component}} {\n}',
-        htmlFileTemplate = '<div class="{{dash-module}}-{{dash-component}}">\n</div>',
+    var stylFileTemplate = '@import "nib";\n\n.{{dash-component}} {\n}',
+        htmlFileTemplate = '<div class="{{dash-component}}">\n</div>',
         jsFileTemplate = "" +
             "/*jshint node:true*/\n" +
             "/*global {{cc-module}}*/\n" +
@@ -48,10 +48,10 @@ function component (argv) {
             "(function () {\n" +
             "   'use strict';\n" +
             "\n" +
-            "   {{cc-module}}.directive('{{cc-module}}{{ucc-component}}', function () {\n" +
+            "   {{cc-module}}.directive('{{cc-component}}', function () {\n" +
             "       return {\n" +
             "           restrict: 'E',\n" +
-            "           templateUrl: '/{{cc-module}}/views/{{cc-component}}/{{ucc-component}}.html',\n" +
+            "           templateUrl: '{{template-url}}',\n" +
             "           controller: ['$scope',\n" +
             "               function ($scope) {\n" +
             "           }]\n" +
@@ -59,25 +59,65 @@ function component (argv) {
             "   });\n" +
             "}());",
         dashModuleName = argv[2],
-        dashComponentName = argv[4],
-        ccModuleName = dashToCamelCase(dashModuleName),
-        ccComponentName = dashToCamelCase(dashComponentName),
-        uccComponentName = dashToUpperCamelCase(dashComponentName),
-        templateCompile = function (template) {
-            return template
-                .replace(/\{\{dash\-component\}\}/g, dashComponentName)
-                .replace(/\{\{dash\-module\}\}/g, dashModuleName)
-                .replace(/\{\{cc\-module\}\}/g, ccModuleName)
-                .replace(/\{\{cc\-component\}\}/g, ccComponentName)
-                .replace(/\{\{ucc\-component\}\}/g, uccComponentName);
-        },
-        styl = templateCompile(stylFileTemplate),
-        js = templateCompile(jsFileTemplate),
-        html = templateCompile(htmlFileTemplate),
-        dir = process.cwd() + '/' + ccComponentName,
-        filePath = dir + '/' + uccComponentName;
+        dashComponentName,
+        dashSubModuleName,
+        ccSubModuleName,
+        filePath,
+        ccModuleName,
+        ccComponentName,
+        uccComponentName,
+        templateCompile,
+        styl, js, html, dir,
+        templateUrl,
+        ccComponent,
+        dashComponent,
+        uccSubModuleName;
 
-    fs.mkdirSync(dir);
+    if (argv[5]) {
+        dashComponentName = argv[5];
+        dashSubModuleName = argv[4];
+    } else {
+        dashComponentName = argv[4];
+        dashSubModuleName = '';
+    }
+
+    ccSubModuleName = dashToCamelCase(dashSubModuleName);
+
+    ccModuleName = dashToCamelCase(dashModuleName);
+    ccComponentName = dashToCamelCase(dashComponentName);
+    uccComponentName = dashToUpperCamelCase(dashComponentName);
+    uccSubModuleName = dashToUpperCamelCase(dashSubModuleName);
+
+    if (ccSubModuleName) {
+        templateUrl = '/' + ccModuleName + '/views/' + ccSubModuleName + '/' + ccComponentName + '/' + uccComponentName + '.html';
+        dashComponent = dashModuleName + '-' + dashSubModuleName + '-' + dashComponentName;
+        ccComponent = ccModuleName + uccSubModuleName + uccComponentName;
+    } else {
+        templateUrl = '/' + ccModuleName + '/views/' + ccComponentName + '/' + uccComponentName + '.html';
+        dashComponent = dashModuleName + '-' + dashComponentName;
+        ccComponent = ccModuleName + uccComponentName;
+    }
+
+    templateCompile = function (template) {
+        return template
+            .replace(/\{\{template\-url\}\}/g, templateUrl)
+            .replace(/\{\{cc\-module\}\}/g, ccModuleName)
+            .replace(/\{\{cc\-component\}\}/g, ccComponent)
+            .replace(/\{\{dash\-component\}\}/g, dashComponent);
+    },
+    styl = templateCompile(stylFileTemplate);
+    js = templateCompile(jsFileTemplate);
+    html = templateCompile(htmlFileTemplate);
+
+    if (ccSubModuleName) {
+        fs.mkdirSync(process.cwd() + '/' + ccSubModuleName);
+        fs.mkdirSync(process.cwd() + '/' + ccSubModuleName + '/' + ccComponentName);
+        filePath = process.cwd() + '/' + ccSubModuleName + '/' + ccComponentName + '/' + uccComponentName;
+    } else {
+        fs.mkdirSync(process.cwd() + '/' + ccComponentName);
+        filePath = process.cwd() + '/' + ccComponentName + '/' + uccComponentName;
+    }
+
     fs.writeFileSync(filePath + '.html', html, {encoding: 'utf-8'});
     fs.writeFileSync(filePath + '.styl', styl, {encoding: 'utf-8'});
     fs.writeFileSync(filePath + '.js', js, {encoding: 'utf-8'});
