@@ -17,6 +17,5 @@
   "author": "Szymon Wygnański <s@finalclass.net>",
   "license": "MIT",
   "dependencies": {
-    "optimist": "~0.5.0"
   }
 }
