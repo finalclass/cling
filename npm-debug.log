@@ -8,7 +8,7 @@
 4 silly exec git "status" "--porcelain"
 5 silly git,status,--porcelain, spawning
 6 error Error: Git working directory not clean.
-6 error M README.md
+6 error D npm-debug.log
 6 error     at /usr/local/lib/node_modules/npm/lib/version.js:82:33
 6 error     at /usr/local/lib/node_modules/npm/node_modules/once/once.js:17:15
 6 error     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/exec.js:64:5)
