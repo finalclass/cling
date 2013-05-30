@@ -110,7 +110,9 @@ function component (argv) {
     html = templateCompile(htmlFileTemplate);
 
     if (ccSubModuleName) {
-        fs.mkdirSync(process.cwd() + '/' + ccSubModuleName);
+        if (!fs.existsSync(process.cwd() + '/' + ccSubModuleName)) {
+            fs.mkdirSync(process.cwd() + '/' + ccSubModuleName);
+        }
         fs.mkdirSync(process.cwd() + '/' + ccSubModuleName + '/' + ccComponentName);
         filePath = process.cwd() + '/' + ccSubModuleName + '/' + ccComponentName + '/' + uccComponentName;
     } else {
