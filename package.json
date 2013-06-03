@@ -1,6 +1,6 @@
 {
   "name": "cling",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Angularjs client",
   "main": "index.js",
   "scripts": {
