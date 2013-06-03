@@ -89,11 +89,11 @@ function component (argv) {
     uccSubModuleName = dashToUpperCamelCase(dashSubModuleName);
 
     if (ccSubModuleName) {
-        templateUrl = '/' + ccModuleName + '/views/' + ccSubModuleName + '/' + ccComponentName + '/' + uccComponentName + '.html';
+        templateUrl = '/' + dashModuleName + '/views/' + dashSubModuleName + '/' + dashComponentName + '/' + dashComponentName + '.html';
         dashComponent = dashModuleName + '-' + dashSubModuleName + '-' + dashComponentName;
         ccComponent = ccModuleName + uccSubModuleName + uccComponentName;
     } else {
-        templateUrl = '/' + ccModuleName + '/views/' + ccComponentName + '/' + uccComponentName + '.html';
+        templateUrl = '/' + dashModuleName + '/views/' + dashComponentName + '/' + dashComponentName + '.html';
         dashComponent = dashModuleName + '-' + dashComponentName;
         ccComponent = ccModuleName + uccComponentName;
     }
@@ -109,15 +109,15 @@ function component (argv) {
     js = templateCompile(jsFileTemplate);
     html = templateCompile(htmlFileTemplate);
 
-    if (ccSubModuleName) {
-        if (!fs.existsSync(process.cwd() + '/' + ccSubModuleName)) {
-            fs.mkdirSync(process.cwd() + '/' + ccSubModuleName);
+    if (dashSubModuleName) {
+        if (!fs.existsSync(process.cwd() + '/' + dashSubModuleName)) {
+            fs.mkdirSync(process.cwd() + '/' + dashSubModuleName);
         }
-        fs.mkdirSync(process.cwd() + '/' + ccSubModuleName + '/' + ccComponentName);
-        filePath = process.cwd() + '/' + ccSubModuleName + '/' + ccComponentName + '/' + uccComponentName;
+        fs.mkdirSync(process.cwd() + '/' + dashSubModuleName + '/' + dashComponentName);
+        filePath = process.cwd() + '/' + dashSubModuleName + '/' + dashComponentName + '/' + dashComponentName;
     } else {
-        fs.mkdirSync(process.cwd() + '/' + ccComponentName);
-        filePath = process.cwd() + '/' + ccComponentName + '/' + uccComponentName;
+        fs.mkdirSync(process.cwd() + '/' + dashComponentName);
+        filePath = process.cwd() + '/' + dashComponentName + '/' + dashComponentName;
     }
 
     fs.writeFileSync(filePath + '.html', html, {encoding: 'utf-8'});
