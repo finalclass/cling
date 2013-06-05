@@ -39,7 +39,7 @@ function dashToCamelCase(text) {
 }
 
 function component (argv) {
-    var stylFileTemplate = '@import "nib";\n\n.{{dash-component}} {\n}',
+    var stylFileTemplate = '@import "mtm";\n\n.{{dash-component}} {\n}',
         htmlFileTemplate = '<div class="{{dash-component}}">\n</div>',
         jsFileTemplate = "" +
             "/*jshint node:true*/\n" +
